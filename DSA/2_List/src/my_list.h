@@ -19,18 +19,30 @@ private:
     listNode<T>* header;  //Invisible, rank[-1]
     listNode<T>* trailer; //Invisible, rank[_size]
 protected:
-    void init();
+    void init(); //Creat header and trailer.
+    void del();  //Delete all list nodes except header and trailer.
 public:
     myList() {init();}
-    ~myList();
+    myList(myList<T>&); //Copy constructor.
+    myList<T>& operator=(myList<T>&);
+    ~myList() {del();}
     void show();
-    listNode<T>* first() const {if (_size <= 0) return NULL; return header -> succ;}
-    listNode<T>* last() const {if (_size <= 0) return NULL; return trailer -> pred;}
-    T& operator[](int); //Low efficiency.
+    listNode<T>* first() const {if (_size <= 0) return NULL; return header -> succ;} //First visible node.
+    listNode<T>* last() const {if (_size <= 0) return NULL; return trailer -> pred;} //Last visible node.
+    T& operator[](int); //Low efficiency. Call by L[i].
     int size() const {return _size;}
-    T insertAsFirst(T);
-    T insertAsLast(T);
+    bool empty() const {return _size <= 0;}
+    T insertAsFirst(T); //Insert as the first visible node in the list.
+    T insertAsLast(T); //Insert as the last visible node in the list.
+    T remove(int); //Delete the rank[i] node.
+    T remove(listNode<T>*); //Delete a special node.
+    int deduplicate(); //Uniquify *disordered* list.
+    int uniquify(); //Uniquify *ordered* list.
+    int disordered(); //The number of disordered pair.
+    listNode<T>* find(T, int, listNode<T>*); //Find data e in n predectors in front of a special node.
+    listNode<T>* find(T); //*Disordered* Find data e in all list.
+    listNode<T>* insertPred(T, listNode<T>*); //Insert a node in front of a special node.
+    listNode<T>* insertSucc(T, listNode<T>*); //Insert a node behind a special node.
 };
-
 
 #endif
