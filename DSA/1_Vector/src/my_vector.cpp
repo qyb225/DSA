@@ -159,17 +159,7 @@ int my_vector<T>::search(T e) {
 
 template <class T>
 void my_vector<T>::sort() {
-    srand(unsigned(time(0)));
-    int choose = rand() % 2;
-
-    if (0 == choose) {
-        std::cout << "Merge sort started..." << std::endl;
-        merge_sort(0, _rank);
-    } 
-    else {
-        std::cout << "Bubble sort started..." << std::endl;
-        bubble_sort();
-    }
+    merge_sort(0, _rank);
 }
 
 template <class T>
