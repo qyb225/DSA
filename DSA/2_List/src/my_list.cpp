@@ -200,6 +200,86 @@ int myList<T>::uniquify() {
     return _size;
 }
 
+template <class T>
+listNode<T>* myList<T>::search(T e, int n, listNode<T>* p) {
+    while (n > 0) {
+        p = p -> pred;
+        if (p -> data <= e)
+            return p;
+        --n;
+    }
+    return p -> pred;
+}
+
+template <class T>
+listNode<T>* myList<T>::search(T e) {
+    return search(e, _size, trailer);
+}
+
+template <class T>
+void myList<T>::selectionSort(listNode<T>* p, int n) {
+    listNode<T>* head = p -> pred;
+    listNode<T>* trail = p;
+    for (int i = 0; i < n; ++i)
+        trail = trail -> succ;
+    while (n > 1) {
+        swapData(selectMax(head, n), trail -> pred);
+        trail = trail -> pred;
+        --n;
+    }
+}
+
+template <class T>
+listNode<T>* myList<T>::selectMax(listNode<T>* p, int n) {
+    T max = p -> succ -> data;
+    listNode<T>* temp = p -> succ;
+    while (n > 0) {
+        p = p -> succ;
+        if (max < p -> data) {
+            temp = p;
+            max = p -> data;
+        }
+        --n;
+    }
+    return temp;
+}
+
+template <class T>
+void myList<T>::swapData(listNode<T>* a, listNode<T>* b) {
+    T swap = a -> data;
+    a -> data = b -> data;
+    b -> data = swap;
+}
+
+template <class T>
+void myList<T>::insertionSort(listNode<T>* p, int n) {
+    if (n < 2) return;
+    listNode<T>* now = p -> succ;
+    listNode<T>* pos = NULL;
+    for (int i = 1; i < n; ++i) {
+        pos = search(now -> data, i, now);
+        listNode<T>* del = now;
+        now = now -> succ;
+        transNode(del, pos);
+    }
+}
+
+template <class T>
+void myList<T>::transNode(listNode<T>* n, listNode<T>* pos) {
+    n -> succ -> pred = n -> pred;
+    n -> pred -> succ = n -> succ;
+    n -> pred = pos;
+    n -> succ = pos -> succ;
+    n -> succ -> pred = n;
+    pos -> succ = n;
+}
+
+template <class T>
+void myList<T>::sort() {
+    //selectionSort(first(), _size);
+    insertionSort(first(), _size);
+}
+
 //listNode
 template <class T>
 void listNode<T>::insertAsPred(listNode<T>* e) {
