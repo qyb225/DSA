@@ -4,7 +4,7 @@
 
 PS，基础数据结构为T
 
-##API介绍及实现思路：
+##API：
 
 1. Stack()
 2. bool empty()
