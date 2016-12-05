@@ -7,10 +7,9 @@ PS，基础数据结构为T
 ##API介绍及实现思路：
 
 1. 构造函数：
-
-* **Vector(n);**
+① **Vector(n);**
 指定大小构造，不进行元素初始化。
-* **Vector(T* t, int lo, int hi);**
+② **Vector(T* t, int lo, int hi);**
 指定T数组的一段区间构造，此时vector最大小为原区间2倍。
 2. **void expand();**
 若此时 vector 已经装满，则进行扩容。
