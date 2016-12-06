@@ -49,12 +49,12 @@ PS，基础数据结构为T
 
 ##API介绍及实现思路：
 
-1. Stack()
-2. bool empty()
-3. void push(T)
-4. T pop()
-5. T top()
-6. int size()
+1. **Stack();**
+2. **bool empty();**
+3. *void push(T);
+4. **T pop();**
+5. **T top();**
+6. **int size();**
 
 ---
 
