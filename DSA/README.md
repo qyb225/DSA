@@ -40,7 +40,18 @@ PS，基础数据结构为T
 
 ##2. list
 
+---
 
+##API介绍及实现思路：
+
+1. **List();**
+2. **first() and last();**
+返回首/末元素。
+3.**size();**
+4. **empty();**
+5. **T insertAsFirst/Last(T);**
+在首/末插入节点T
+6. **remove(i) / remove(node_pointer)**
 ---
 
 ##3. Stack
@@ -51,7 +62,7 @@ PS，基础数据结构为T
 
 1. **Stack();**
 2. **bool empty();**
-3. *void push(T);
+3. *void push(T);**
 4. **T pop();**
 5. **T top();**
 6. **int size();**
