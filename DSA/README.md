@@ -47,11 +47,23 @@ PS，基础数据结构为T
 1. **List();**
 2. **first() and last();**
 返回首/末元素。
-3.**size();**
+3. **size();**
 4. **empty();**
 5. **T insertAsFirst/Last(T);**
 在首/末插入节点T
-6. **remove(i) / remove(node_pointer)**
+6. **remove(i) / remove(node_pointer)** 
+删除某节点（Rank i 或 地址）
+7. **int deduplicate();**
+【无序】链表去重。
+8. **int uniquify();**
+【有序】链表去重。
+9. **find(e, n, node_pointer); or find(e);**
+无序链表查找特定节点前 n 个节点值为 e 的节点。或所有链表中最后一个值为 e 的节点地址。
+10. **search(e, n, node_pointer) or search(e);**
+查找不大于 e 的最后一个节点。
+11. **insertPred(e, p); or insertSucc(e, p)**
+在 p 节点前插入值为 e 的节点。
+
 ---
 
 ##3. Stack
@@ -62,10 +74,15 @@ PS，基础数据结构为T
 
 1. **Stack();**
 2. **bool empty();**
-3. *void push(T);**
+栈是否为空。
+3. **void push(T e);**
+元素 e 压栈。
 4. **T pop();**
-5. **T top();**
+弹出顶部元素。
+5. **T& top();**
+返回顶部元素引用。
 6. **int size();**
+栈内元素。
 
 ---
 
