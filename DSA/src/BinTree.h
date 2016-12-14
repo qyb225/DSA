@@ -1,6 +1,8 @@
 #ifndef BINTREE_H
 #define BINTREE_H
 #define stature(p) ((p) ? p -> height : -1)
+#include "Stack.h"
+#include "Queue.h"
 template <class T>
 struct BinNode {
     BinNode<T>* parent, lChild, rChild;
@@ -10,11 +12,12 @@ struct BinNode {
     void insertAsRC(BinNode<T>*);
     BinNode<T>* succ();
     int size();
-    BinNode() {}
+    BinNode() { parent = NULL; lChild = NULL; rChild = NULL; height = 0; }
     BinNode(T& d, BinNode<T>* p = NULL, BinNode<T>* l = NULL, BinNode<T>* r = NULL)
     : data(T), parent(p), lChild(l), rChild(r) { height = 0; }
     template <class VST> void traveLevel(VST &);
-    template <class VST> void travePre(VST &);
+    template <class VST> void travePre_1(VST &);
+    template <class VST> void travePre_2(VST &);
     template <class VST> void traveIn(VST &);
     template <class VST> void travePost(VST &);
 };
@@ -35,6 +38,8 @@ public:
     BinNode<T>* insertAsRC(T& e, BinNode<T>* x);
 };
 
+template <class T, class VST>
+void visitAlongLeftBranch(BinNode<T>*, Stack<BinNode<T>*>, VST&);
 int max(int, int);
 
 //1. BinNode
@@ -56,6 +61,34 @@ template <class T>
 void BinNode<T>::insertAsRC(BinNode<T>* r) {
     rChild = r;
     r -> parent = this;
+}
+
+//E.g. 1
+template <class T>
+template <class VST>
+void BinNode<T>::travePre_1(VST& visit) {
+    Stack<BinNode<T>*> s;
+    BinNode<T>* x = this;
+    s.push(x);
+    while (!s.empty()) {
+        x = s.pop();
+        visit(x -> data);
+        if (x -> rChild) s.push(x -> rChild);
+        if (x -> lChild) s.push(x -> lChild);
+    }
+}
+
+//E.g. 2
+template <class T>
+template <class VST>
+void BinNode<T>::travePre_2(VST& visit) {
+    Stack<BinNode<T>*> s;
+    BinNode<T>* x = this;
+    s.push(x);
+    while (!s.empty()) {
+        x = s.pop();
+        visitAlongLeftBranch(x, s, visit);
+    }
 }
 
 //2. BinTree
@@ -94,6 +127,15 @@ BinNode<T>* BinTree<T>::insertAsRC(T& e, BinNode<T>* x) {
 int max(int a, int b) {
     if (a > b) return a;
     else return b;
+}
+
+template <class T, class VST>
+void visitAlongLeftBranch(BinNode<T>* x, Stack<BinNode<T>*> s, VST& visit) {
+    while (x) {
+        visit(x -> data);
+        if(x -> rChild) s.push(x -> rChild);
+        x = x -> lChild;
+    }
 }
 
 #endif
