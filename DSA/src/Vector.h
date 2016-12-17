@@ -1,5 +1,6 @@
 #ifndef VECTOR_H
 #define VECTOR_H
+#include <iostream>
 template <class T>
 class Vector {
 private:
@@ -19,15 +20,15 @@ public:
     Vector<T>& operator= (const Vector<T>&);
     ~Vector() {if(_elem) delete [] _elem;}
     void show(); //Display the member in vector in one line.
-    void push_back(T); //Add a member.
-    int insert(int, T); //Add a member in front of i.
+    void push_back(const T&); //Add a member.
+    int insert(int, const T&); //Add a member in front of i.
     int size() const {return _rank;}
     int remove(int, int); //Remove vector[i, j). A loop: _elem[i++] = _elem[j++]
-    int remove(int); //Remove vector[i].
-    int find(T, int, int); //disordered
-    int find(T);
-    int search(T, int, int); //ordered
-    int search(T); // 1. e exist, return the last one. 2. e isn't exist, return one smaller than e.
+    T remove(int); //Remove vector[i].
+    int find(const T&, int, int); //disordered
+    int find(const T&);
+    int search(const T&, int, int); //ordered
+    int search(const T&); // 1. e exist, return the last one. 2. e isn't exist, return one smaller than e.
     T& operator[] (int r) const;
     int deduplicate(); //disordered
     //void traverse(VST &); //function object. operator();
@@ -90,7 +91,7 @@ void Vector<T>::expand() {
 }
 
 template <class T>
-void Vector<T>::push_back(T add) {
+void Vector<T>::push_back(const T& add) {
     expand();
     _elem[_rank++] = add;
     return;
@@ -102,7 +103,7 @@ T& Vector<T>::operator[] (int r) const {
 }
 
 template <class T>
-int Vector<T>::insert(int r, T in) {
+int Vector<T>::insert(int r, const T& in) {
     expand();
     for (int i = _rank; i > r; --i)
        _elem[i] = _elem[i - 1];
@@ -121,14 +122,14 @@ int Vector<T>::remove(int lo, int hi) {
 }
 
 template <class T>
-int Vector<T>::remove(int r) {
+T Vector<T>::remove(int r) {
     T e = _elem[r];
     remove(r, r + 1);
     return e;
 }
 
 template <class T>
-int Vector<T>::find(T e, int lo, int hi) {
+int Vector<T>::find(const T& e, int lo, int hi) {
     int i;
     for (i = hi - 1; i >= lo; --i) {
        if (e ==_elem[i])
@@ -139,7 +140,7 @@ int Vector<T>::find(T e, int lo, int hi) {
 }
 
 template <class T>
-int Vector<T>::find(T e) {
+int Vector<T>::find(const T& e) {
     return find(e, 0, _rank);
 }
 
@@ -184,7 +185,7 @@ int Vector<T>::uniquify() { //ordered
 }
 
 template <class T>
-int Vector<T>::search(T e, int lo, int hi) {
+int Vector<T>::search(const T& e, int lo, int hi) {
     int mi;
     while (lo < hi) {
        mi = (lo + hi) / 2; 
@@ -197,7 +198,7 @@ int Vector<T>::search(T e, int lo, int hi) {
 }
 
 template <class T>
-int Vector<T>::search(T e) {
+int Vector<T>::search(const T& e) {
     return search(e, 0, _rank);
 }
 

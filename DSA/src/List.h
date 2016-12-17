@@ -1,12 +1,13 @@
 #ifndef LIST_H
 #define LIST_H
+#include <iostream>
 template <class T>
 struct listNode {
     T data;
     listNode<T>* pred;
     listNode<T>* succ;
     listNode() {}
-    listNode(T e, listNode<T>* p = NULL, listNode<T>* s = NULL)
+    listNode(const T& e, listNode<T>* p = NULL, listNode<T>* s = NULL)
     : data(e), pred(p), succ(s) {}
     void insertAsPred(listNode<T>*);
     void insertAsSucc(listNode<T>*);
@@ -37,19 +38,19 @@ public:
     T& operator[](int); //Low efficiency. Call by L[i].
     int size() const {return _size;}
     bool empty() const {return _size <= 0;}
-    T insertAsFirst(T); //Insert as the first visible node in the list.
-    T insertAsLast(T); //Insert as the last visible node in the list.
+    T insertAsFirst(const T&); //Insert as the first visible node in the list.
+    T insertAsLast(const T&); //Insert as the last visible node in the list.
     T remove(int); //Delete the rank[i] node.
     T remove(listNode<T>*); //Delete a special node.
     int deduplicate(); //Uniquify *disordered* list.
     int uniquify(); //Uniquify *ordered* list.
     int disordered(); //The number of disordered pair.
-    listNode<T>* find(T, int, listNode<T>*); //Find data e in n predectors in front of a special node.
-    listNode<T>* find(T); //*Disordered* Find data e in all list.
-    listNode<T>* search(T, int, listNode<T>*); //*Ordered* Find the last one which <= target in a interval.
-    listNode<T>* search(T); //*Ordered* Find the last one which <= target in the whole list.
-    listNode<T>* insertPred(T, listNode<T>*); //Insert a node in front of a special node.
-    listNode<T>* insertSucc(T, listNode<T>*); //Insert a node behind a special node.
+    listNode<T>* find(const T&, int, listNode<T>*); //Find data e in n predectors in front of a special node.
+    listNode<T>* find(const T&); //*Disordered* Find data e in all list.
+    listNode<T>* search(const T&, int, listNode<T>*); //*Ordered* Find the last one which <= target in a interval.
+    listNode<T>* search(const T&); //*Ordered* Find the last one which <= target in the whole list.
+    listNode<T>* insertPred(const T&, listNode<T>*); //Insert a node in front of a special node.
+    listNode<T>* insertSucc(const T&, listNode<T>*); //Insert a node behind a special node.
     void sort(); //**Selection sort.**
 };
 
@@ -103,7 +104,7 @@ T& List<T>::operator[](int i) {
 }
 
 template <class T>
-T List<T>::insertAsFirst(T val) {
+T List<T>::insertAsFirst(const T& val) {
     listNode<T> * in = new listNode<T>(val);
     header -> insertAsSucc(in);
     ++_size;
@@ -111,7 +112,7 @@ T List<T>::insertAsFirst(T val) {
 }
 
 template <class T>
-T List<T>::insertAsLast(T val) {
+T List<T>::insertAsLast(const T& val) {
     listNode<T> * in = new listNode<T>(val);
     trailer -> insertAsPred(in);
     ++_size;
@@ -143,7 +144,7 @@ void List<T>::show() {
 }
 
 template <class T>
-listNode<T>* List<T>::find(T e, int n, listNode<T>* p) {
+listNode<T>* List<T>::find(const T& e, int n, listNode<T>* p) {
     while (n > 0) {
         p = p -> pred;
         if (p -> data == e)
@@ -154,12 +155,12 @@ listNode<T>* List<T>::find(T e, int n, listNode<T>* p) {
 }
 
 template <class T>
-listNode<T>* List<T>::find(T e) {
+listNode<T>* List<T>::find(const T& e) {
     return find(e, _size, trailer);
 }
 
 template <class T>
-listNode<T>* List<T>::insertPred(T e, listNode<T>* p) {
+listNode<T>* List<T>::insertPred(const T& e, listNode<T>* p) {
     listNode<T>* val = new listNode<T>(e);
     p -> insertAsPred(val);
     ++_size;
@@ -167,7 +168,7 @@ listNode<T>* List<T>::insertPred(T e, listNode<T>* p) {
 }
 
 template <class T>
-listNode<T>* List<T>::insertSucc(T e, listNode<T>* p) {
+listNode<T>* List<T>::insertSucc(const T& e, listNode<T>* p) {
     listNode<T>* val = new listNode<T>(e);
     p -> insertAsSucc(val);
     ++_size;
@@ -253,7 +254,7 @@ int List<T>::uniquify() {
 }
 
 template <class T>
-listNode<T>* List<T>::search(T e, int n, listNode<T>* p) {
+listNode<T>* List<T>::search(const T& e, int n, listNode<T>* p) {
     while (n > 0) {
         p = p -> pred;
         if (p -> data <= e)
@@ -264,7 +265,7 @@ listNode<T>* List<T>::search(T e, int n, listNode<T>* p) {
 }
 
 template <class T>
-listNode<T>* List<T>::search(T e) {
+listNode<T>* List<T>::search(const T& e) {
     return search(e, _size, trailer);
 }
 
