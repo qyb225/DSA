@@ -2,7 +2,6 @@
 #define BINTREE_H
 #include "Stack.h"
 #include "Queue.h"
-#include <iostream>
 template <class T>
 struct BinNode {
     BinNode<T>* parent, *lChild, *rChild;
