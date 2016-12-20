@@ -7,7 +7,7 @@
 
 ---
 
-##Tips: 内存泄漏检测Debug方法：
+##Tips: 内存泄漏检测方法：
 
 ```cpp
 #define CRTDBG_MAP_ALLOC
