@@ -13,9 +13,10 @@
 #define CRTDBG_MAP_ALLOC
 #include <cstdlib>
 #include <crtdbg.h>
-//Memory leaks test in VS.
-//If memory doesn't release finally, will output warn like:
 /*
+Memory leaks test in VS.
+If memory doesn't release finally, will output warn like:
+
 Detected memory leaks!
 normal block at 0x00341A38, 40 bytes long.
 Data: <   > CD CD CD CD CD CD CD CD CD CD
