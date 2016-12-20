@@ -18,7 +18,8 @@ Memory leaks test in VS.
 If memory doesn't release finally, will output warn like:
 
 Detected memory leaks!
-normal block at 0x00341A38, 40 bytes long.
+Dumping objects ->
+{144} normal block at 0x010DE460, 40 bytes long.
 Data: <   > CD CD CD CD CD CD CD CD CD CD
 */
 
