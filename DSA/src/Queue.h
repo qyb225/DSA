@@ -7,7 +7,7 @@ class Queue : public List<T> {
 public: //size(), empty();
     void enqueue(const T& e) { insertAsLast(e); }
     T dequeue() { return remove(first()); }
-    T& front() { return first() -> data; }
+    T& front() { return first()->data; }
 };
 
 #endif

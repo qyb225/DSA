@@ -42,7 +42,7 @@ public:
     int size() const { return _size; }
     bool empty() { return _size == 0; }
     BinNode<T>* root() { return _root; }
-    int height() { return _root -> height; }
+    int height() { return _root->height; }
     BinTree<T>& secede(BinNode<T>*);
     BinTree<T>& secede(BinNode<T>*, BinTree<T>&);
     BinNode<T>* insertAsLC(const T&, BinNode<T>*);
@@ -52,10 +52,10 @@ public:
     BinNode<T>* find(T, BinNode<T>*); //Find a node in a subtree by TravePre.
     BinNode<T>* find(T);
     int remove(BinNode<T>*);
-    template <class VST> void travePre(VST & visit) { _root -> travePre_1(visit); }
-    template <class VST> void traveIn(VST & visit) { _root -> traveIn(visit); }
-    template <class VST> void travePost(VST & visit) { _root -> travePost(visit); }
-    template <class VST> void traveLevel(VST & visit) { _root -> traveLevel(visit); }
+    template <class VST> void travePre(VST & visit) { _root->travePre_1(visit); }
+    template <class VST> void traveIn(VST & visit) { _root->traveIn(visit); }
+    template <class VST> void travePost(VST & visit) { _root->travePost(visit); }
+    template <class VST> void traveLevel(VST & visit) { _root->traveLevel(visit); }
     ~BinTree() { if (_size > 0) remove(_root); }
 };
 
@@ -69,23 +69,23 @@ int max(int, int);
 template <class T>
 int BinNode<T>::size() {
     __size = 1;
-    if (lChild) __size += lChild -> size();
-    if (rChild) __size += rChild -> size();
+    if (lChild) __size += lChild->size();
+    if (rChild) __size += rChild->size();
     return __size;
 }
 
 template <class T>
 void BinNode<T>::insertAsLC(BinNode<T>* l) {
     lChild = l;
-    l -> parent = this;
-    __size += l -> __size;
+    l->parent = this;
+    __size += l->__size;
 }
 
 template <class T>
 void BinNode<T>::insertAsRC(BinNode<T>* r) {
     rChild = r;
-    r -> parent = this;
-    __size += r -> __size;
+    r->parent = this;
+    __size += r->__size;
 }
 
 //1.1 travelPre
@@ -97,9 +97,9 @@ void BinNode<T>::travePre_1(VST& visit) {
     s.push(x);
     while (!s.empty()) {
         x = s.pop();
-        visit(x -> data);
-        if (x -> rChild) s.push(x -> rChild);
-        if (x -> lChild) s.push(x -> lChild);
+        visit(x->data);
+        if (x->rChild) s.push(x->rChild);
+        if (x->lChild) s.push(x->lChild);
     }
 }
 
@@ -124,8 +124,8 @@ void BinNode<T>::traveIn(VST& visit) {
     goAlongLeftBranch(x, s);
     while (!s.empty()) {
         x = s.pop();
-        visit(x -> data);
-        x = x -> rChild;
+        visit(x->data);
+        x = x->rChild;
         goAlongLeftBranch(x, s);
     }
 }
@@ -134,9 +134,9 @@ void BinNode<T>::traveIn(VST& visit) {
 template <class T>
 template <class VST>
 void BinNode<T>::travePost(VST& visit) {
-    if (lChild) lChild -> travePost(visit);
-    if (rChild) rChild -> travePost(visit);
-    visit(x -> data);
+    if (lChild) lChild->travePost(visit);
+    if (rChild) rChild->travePost(visit);
+    visit(x->data);
 }
 
 //1.4 travelLevel
@@ -148,9 +148,9 @@ void BinNode<T>::traveLevel(VST& visit) {
     q.enqueue(x);
     while (!q.empty()) {
         x = q.dequeue();
-        visit(x -> data);
-        if (x -> lChild) q.enqueue(x -> lChild);
-        if (x -> rChild) q.enqueue(x -> rChild);
+        visit(x->data);
+        if (x->lChild) q.enqueue(x->lChild);
+        if (x->rChild) q.enqueue(x->rChild);
     }
 }
 
@@ -169,8 +169,8 @@ BinTree<T>::BinTree(const BinTree<T>& temp) {
 
 template <class T>
 BinTree<T>::BinTree(BinNode<T>* r): _size(0), _root(NULL) {
-    if (!(r -> parent)) {
-        _size = r -> size();
+    if (!(r->parent)) {
+        _size = r->size();
         _root = r;
     }
 }
@@ -185,31 +185,31 @@ void BinTree<T>::creatRoot(const T& e) {
 template <class T>
 int BinTree<T>::updateHeight(BinNode<T>* x) {
     int lHeight, rHeight;
-    if (x -> lChild)
-        lHeight = x -> lChild -> height;
+    if (x->lChild)
+        lHeight = x->lChild->height;
     else
         lHeight = 0;
-    if (x -> rChild)
-        rHeight = x -> rChild -> height;
+    if (x->rChild)
+        rHeight = x->rChild->height;
     else
         rHeight = 0;
 
-    x -> height = 1 + max(lHeight, rHeight);
-    return x -> height;
+    x->height = 1 + max(lHeight, rHeight);
+    return x->height;
 }
 
 template <class T>
 void BinTree<T>::updateHeightAbove(BinNode<T>* x) {
     while (x) {
         updateHeight(x);
-        x = x -> parent;
+        x = x->parent;
     }
 }
 
 template <class T>
 BinNode<T>* BinTree<T>::insertAsLC(const T& e, BinNode<T>* x) {
     BinNode<T>* n = new BinNode<T>(e);
-    x -> insertAsLC(n);
+    x->insertAsLC(n);
     ++_size;
     updateHeightAbove(x);
     return n;
@@ -218,7 +218,7 @@ BinNode<T>* BinTree<T>::insertAsLC(const T& e, BinNode<T>* x) {
 template <class T>
 BinNode<T>* BinTree<T>::insertAsRC(const T& e, BinNode<T>* x) {
     BinNode<T>* n = new BinNode<T>(e);
-    x -> insertAsRC(n);
+    x->insertAsRC(n);
     ++_size;
     updateHeightAbove(x);
     return n;
@@ -228,8 +228,8 @@ template <class T>
 int BinTree<T>::remove(BinNode<T>* x) {
     if (!x) return 0;
     int temp = 1;
-    if (x -> lChild) temp += remove(x -> lChild);
-    if (x -> rChild) temp += remove(x -> rChild);
+    if (x->lChild) temp += remove(x->lChild);
+    if (x->rChild) temp += remove(x->rChild);
     delete x;
     x = NULL;
     --_size;
@@ -242,9 +242,9 @@ BinNode<T>* BinTree<T>::find(T e, BinNode<T>* x) {
     s.push(x);
     while (!s.empty()) {
         x = s.pop();
-        if (e == x -> data) return x;
-        if (x -> rChild) s.push(x -> rChild);
-        if (x -> lChild) s.push(x -> lChild);
+        if (e == x->data) return x;
+        if (x->rChild) s.push(x->rChild);
+        if (x->lChild) s.push(x->lChild);
     }
 }
 
@@ -255,63 +255,63 @@ BinNode<T>* BinTree<T>::find(T e) {
 
 template <class T>
 BinNode<T>* BinTree<T>::copyNode(const BinNode<T>* x) {
-    BinNode<T>* r = new BinNode<T>(x -> data, x -> height, x -> __size);
-    if (x -> lChild) {
-        r -> lChild = copyNode(x -> lChild);
-        r -> lChild -> parent = r;
+    BinNode<T>* r = new BinNode<T>(x->data, x->height, x->__size);
+    if (x->lChild) {
+        r->lChild = copyNode(x->lChild);
+        r->lChild->parent = r;
     }
-    if (x -> rChild) {
-        r -> rChild = copyNode(x -> rChild);
-        r -> rChild -> parent = r;
+    if (x->rChild) {
+        r->rChild = copyNode(x->rChild);
+        r->rChild->parent = r;
     }
-    r -> size();
+    r->size();
     return r;
 }
 
 template <class T>
 BinNode<T>* BinTree<T>::attachAsLC(BinNode<T>* e, BinNode<T>* x) {
-    if (x -> lChild) remove(x -> lChild);
-    e -> size();
-    x -> insertAsLC(copyNode(e));
+    if (x->lChild) remove(x->lChild);
+    e->size();
+    x->insertAsLC(copyNode(e));
     updateHeightAbove(x);
-    _size += x -> __size - 1;
-    return x -> lChild;
+    _size += x->__size - 1;
+    return x->lChild;
 }
 
 template <class T>
 BinNode<T>* BinTree<T>::attachAsRC(BinNode<T>* e, BinNode<T>* x) {
-    if (x -> rChild) remove(x -> rChild);
-    e -> size();
-    x -> insertAsRC(copyNode(e));
+    if (x->rChild) remove(x->rChild);
+    e->size();
+    x->insertAsRC(copyNode(e));
     updateHeightAbove(x);
-    _size += x -> __size - 1;
-    return x -> rChild;
+    _size += x->__size - 1;
+    return x->rChild;
 }
 
 template <class T>
 BinTree<T>& BinTree<T>::secede(BinNode<T>* x) {
-    if (x -> parent && x -> parent -> lChild == x)
-        x -> parent -> lChild = NULL;
-    else if (x -> parent && x -> parent -> rChild == x)
-        x -> parent -> rChild = NULL;
-    updateHeightAbove(x -> parent);
-    x -> parent = NULL;
+    if (x->parent && x->parent->lChild == x)
+        x->parent->lChild = NULL;
+    else if (x->parent && x->parent->rChild == x)
+        x->parent->rChild = NULL;
+    updateHeightAbove(x->parent);
+    x->parent = NULL;
     remove(_root);
-    _size = x -> size();
+    _size = x->size();
     _root = x;
     return *this;
 }
 
 template <class T>
 BinTree<T>& BinTree<T>::secede(BinNode<T>* x, BinTree<T>& t) {
-    if (x -> parent && x -> parent -> lChild == x)
-        x -> parent -> lChild = NULL;
-    else if (x -> parent && x -> parent -> rChild == x)
-        x -> parent -> rChild = NULL;
-    updateHeightAbove(x -> parent);
-    x -> parent = NULL;
+    if (x->parent && x->parent->lChild == x)
+        x->parent->lChild = NULL;
+    else if (x->parent && x->parent->rChild == x)
+        x->parent->rChild = NULL;
+    updateHeightAbove(x->parent);
+    x->parent = NULL;
     remove(t._root);
-    t._size = x -> size();
+    t._size = x->size();
     t._root = x;
     return t;
 }
@@ -325,9 +325,9 @@ int max(int a, int b) {
 template <class T, class VST>
 void visitAlongLeftBranch(BinNode<T>* x, Stack<BinNode<T>*>& s, VST& visit) {
     while (x) {
-        visit(x -> data);
-        if (x -> rChild) s.push(x -> rChild);
-        x = x -> lChild;
+        visit(x->data);
+        if (x->rChild) s.push(x->rChild);
+        x = x->lChild;
     }
 }
 
@@ -335,7 +335,7 @@ template <class T>
 void goAlongLeftBranch(BinNode<T>* x, Stack<BinNode<T>*>& s) {
     while (x) {
         s.push(x);
-        x = x -> lChild;
+        x = x->lChild;
     }
 }
 
