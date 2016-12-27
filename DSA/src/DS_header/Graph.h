@@ -4,8 +4,10 @@
 #include "Vector.h"
 
 typedef enum { UNDISCOVERED, DISCOVERED, VISITED } VStatus;
-typedef enum { UNDETERMINED, TREE, CROSS, FORWARD, BACKWARD } EType;
+typedef enum { UNDETERMINED, TREE, CROSS, FORWARD, BACKWARD } EStatus;
 
+
+//1.1 Vertex
 template <class Tv>
 struct Vertex {
     Tv data;
@@ -19,6 +21,7 @@ struct Vertex {
         dTime(-1), fTime(-1), parent(-1), priority(INT_MAX) {}
 };
 
+//1.2 Edge
 template <class Te>
 struct Edge{
     Te data;
@@ -28,6 +31,7 @@ struct Edge{
         data(d), weight(w), status(UNDETERMINED) {}
 };
 
+//2. Graph
 template <class Tv, class Te>
 class Graph {
 private:
@@ -59,7 +63,7 @@ public:
     virtual bool exists(int, int) = 0;
     virtual void insert(const Te&, int, int, int) = 0; //Insert an Edge(data, weight) between vertex i and j.
     virtual Te remove(int, int) = 0;
-    virtual EType& type(int, int) = 0;
+    virtual EStatus& status(int, int) = 0;
     virtual Te& edge(int, int) = 0;
     virtual int& weight(int, int) = 0;
 //  Algorithm
@@ -72,11 +76,35 @@ public:
     template <class PU> void pfs(int, PU); //优先级搜索框架
 };
 
+//3. GraphMatrix
 template <class Tv, class Te>
 class GraphMatrix: public Graph<Tv, Te> {
 private:
     Vector<Vertex<Tv>> V;
     Vector<Vector<Edge<Te>*>> E;
+public:
+    GraphMatrix() { _n = _e = 0; }
+    ~GraphMatrix();
+//  Vertex
+    virtual Tv& vertex(int i) { return V[i].data; }
+    virtual int inDegree(int i) { return V[i].inDegree; }
+    virtual int outDegree(int i) { return V[i].outDegree; }
+    virtual VStatus& status(int i) { return V[i].status; }
+    virtual int& dTime(int i) { return V[i].dTime; }
+    virtual int& fTime(int i) { return V[i].fTime; }
+    virtual int& parent(int i) { return V[i].parent; }
+    virtual int& priority(int i) { return V[i].priority; }
+    virtual int firstNbr(int);
+    virtual int nextNbr(int, int);
+    virtual int insert(const Tv&);
+    virtual Tv remove(int);
+//  Edge
+    virtual bool exists(int, int);
+    virtual EStatus& status(int, int);
+    virtual Te& edge(int, int);
+    virtual int& weight(int, int);
+    virtual void insert(const Te&, int, int, int);
+    virtual Te remove(int, int);
 };
 
 //1. Graph
@@ -87,10 +115,105 @@ void Graph<Tv, Te>::reset() {
         dTime(i) = fTime(i) = parent(i) = -1;
         priority(i) = INT_MAX;
         for (int j = 0; j < n; ++j)
-            if (exist(i, j)) type(i, j) = UNDETERMINED;
+            if (exists(i, j)) status(i, j) = UNDETERMINED;
     }
 }
 
 //2. GraphMatrix
+template <class Tv, class Te>
+GraphMatrix<Tv, Te>::~GraphMatrix() {
+    for (int i = 0; i < _n; ++i) {
+        for (int j = 0; j < _n; ++j)
+            delete E[i][j];
+    }
+}
+
+//2.1 Vertex
+template <class Tv, class Te>
+int GraphMatrix<Tv, Te>::nextNbr(int i, int j) {
+    while (--j >= 0) {
+        if (exists(i, j)) return j;
+    }
+}
+
+template <class Tv, class Te>
+int GraphMatrix<Tv, Te>::firstNbr(int i) {
+    return nextNbr(i, _n);
+}
+
+template <class Tv, class Te>
+int GraphMatrix<Tv, Te>::insert(const Tv& d) {
+    for (int i = 0; i < n; ++i)
+        E[i].push_back(NULL);
+    ++_n;
+    E.push_back(Vector<Edge<Te>*>(_n, NULL));
+    V.push_back(Vertex<Tv>(d));
+}
+
+template <class Tv, class Te>
+Tv GraphMatrix<Tv, Te>::remove(int i) {
+    for (int j = 0; j < _n; ++j) {
+        if (exists(i, j)) {
+            delete E[i][j];
+            V[j].inDegree -= 1;
+        }
+    }
+    E.remove(i);
+    --_n;
+    for (int j = 0; j < _n; ++j) {
+        if (exists(j, i)) {
+            delete E[j][i];
+            E[j].remove(i);
+            V[j].outDegree -= 1;
+        } 
+    }
+    Tv tmp = vertex(i);
+    V.remove(i);
+    return tmp;
+}
+
+
+//2.2 Edge
+template <class Tv, class Te>
+bool GraphMatrix<Tv, Te>::exists(int i, int j) {
+    return ((i < _n) && (i > -1)) && ((j < _n) && (j > -1))
+           && E[i][j] != NULL;
+}
+
+template <class Tv, class Te>
+Tv& GraphMatrix<Tv, Te>::edge(int i, int j) {
+    if (exists(i, j)) return E[i][j]->data;
+}
+
+template <class Tv, class Te>
+EStatus& GraphMatrix<Tv, Te>::status(int i, int j) {
+    if (exists(i, j)) return E[i][j]->status;
+}
+
+template <class Tv, class Te>
+int& GraphMatrix<Tv, Te>::weight(int i, int j) {
+    if (exists(i, j)) return E[i][j]->weight;
+}
+
+template <class Tv, class Te>
+void GraphMatrix<Tv, Te>::insert(const Te& d, int w, int i, int j) {
+    if (exists(i, j)) return;
+    E[i][j] = new Edge<Te>(d, w);
+    V[i].outDegree += 1;
+    V[j].inDegree += 1;
+    _e++;
+}
+
+template <class Tv, class Te>
+Te GraphMatrix<Tv, Te>::remove(int i, int j) {
+    if (exists(i, j)) {
+        Te tmp = edge(i, j);
+        delete E[i][j];
+        V[i].outDegree -= 1;
+        V[j].inDegree -= 1;
+        --_e;
+        return tmp;
+    }
+}
 
 #endif
