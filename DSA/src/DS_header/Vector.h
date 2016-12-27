@@ -15,6 +15,7 @@ protected:
     void merge(int, int, int); //Complish merge sort algorithm
 public:
     Vector(int c = 8) {_elem = new T[c]; _rank = 0; _capacity = c;}
+    Vector(int c, const T&);
     Vector(T* t, int lo, int hi) {copyForm(t, lo, hi);}
     Vector(Vector<T>&);
     Vector<T>& operator= (const Vector<T>&);
@@ -44,6 +45,15 @@ void Vector<T>::copyForm(T* t, int lo, int hi) {
     _rank = 0;
     while (lo < hi)
         _elem[_rank++] = t[lo++];
+}
+
+template <class T>
+Vector<T>::Vector(int c, const T& d) {
+    _rank = c;
+    _capacity = c * 2;
+    _elem = new T[_capacity];
+    for (int i = 0; i < _rank; ++i)
+        _elem[i] = d;
 }
 
 template <class T>
