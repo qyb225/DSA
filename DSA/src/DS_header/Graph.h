@@ -79,8 +79,6 @@ private:
     Vector<Vector<Edge<Te>*>> E;
 };
 
-#endif
-
 //1. Graph
 template <class Tv, class Te>
 void Graph<Tv, Te>::reset() {
@@ -94,3 +92,5 @@ void Graph<Tv, Te>::reset() {
 }
 
 //2. GraphMatrix
+
+#endif
