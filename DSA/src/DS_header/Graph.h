@@ -2,6 +2,7 @@
 #define GRAPH_H
 #include "Vector.h"
 #include "Stack.h"
+#include "Queue.h"
 
 typedef enum { UNDISCOVERED, DISCOVERED, VISITED } VStatus;
 typedef enum { UNDETERMINED, TREE, CROSS, FORWARD, BACKWARD } EStatus;
@@ -38,6 +39,7 @@ private:
     void reset();
     void BFS(int, int&); //(连通域)广搜算法
     void DFS(int, int&); //(连通域)深搜算法
+  //Unfinished
     void BCC(int, int&, Stack<int>&); //(连通域)基于DFS的双连通分量分解算法
     bool Tsort(int, int&, Stack<Tv>*); //(连通域)基于DFS的拓扑排序算法
     template <class PU> void PFS(int, PU); //(连通域)优先级搜索算法
@@ -69,6 +71,7 @@ public:
 //  Algorithm
     void bfs(int);
     void dfs(int);
+  //Unfinished
     void bcc(int);
     Stack<Tv>* tSort(int);
     void prim(int); //最小支撑树Prim算法
@@ -119,6 +122,70 @@ void Graph<Tv, Te>::reset() {
     }
 }
 
+template <class Tv, class Te>
+void Graph<Tv, Te>::BFS(int v, int& _clock) {
+    Queue<int> q;
+    q.enqueue(v);
+    status(v) = DISCOVERED;
+    while (!q.empty()) {
+        int v = q.dequeue();
+        dTime(v) = ++_clock;
+        /*Do something...*/
+        for (int u = firstNbr(v); u > -1; u = nextNbr(v, u)) {
+            if (UNDISCOVERED == status(u)) {
+                status(u) = DISCOVERED;
+                status(v, u) = TREE;
+                parent(u) = v;
+            } else
+                status(v, u) = CROSS;
+        }
+        status(v) = VISITED;
+    }
+}
+
+template <class Tv, class Te>
+void Graph<Tv, Te>::bfs(int v) {
+    reset();
+    int s = v;
+    int _clock = 0;
+    do {
+        if (UNDISCOVERED == status(s))
+            BFS(s, _clock);
+        s = (s + 1) % _n;
+    } while (v != s);
+}
+
+template <class Tv, class Te>
+void Graph<Tv, Te>::DFS(int v, int& _clock) {
+    dTime(v) = ++_clock;
+    status(v) = DISCOVERED;
+    for (int u = firstNbr(v); u > -1; u = nextNbr(v, u)) {
+        if (UNDISCOVERED == status(u)) {
+            status(v, u) = TREE;
+            parent(u) = v;
+            DFS(u, _clock);
+        } else if (DISCOVERED == status(u))
+            status(v, u) = BACKWARD;
+        else
+            status(v, u) = (dTime(v) < dTime(u))? FORWARD: CROSS;
+    }
+    /*Do something...*/
+    status(v) = VISITED;
+    fTime = ++_clock;
+}
+
+template <class Tv, class Te>
+void Graph<Tv, Te>::dfs(int v) {
+    reset();
+    int _clock = 0;
+    int s = v;
+    do {
+        if (UNDISCOVERED == status(s))
+            DFS(s, _clock);
+        s = (s + 1) % _n;
+    } while (s != v);
+}
+
 //2. GraphMatrix
 template <class Tv, class Te>
 GraphMatrix<Tv, Te>::~GraphMatrix() {
@@ -134,6 +201,7 @@ int GraphMatrix<Tv, Te>::nextNbr(int i, int j) {
     while (--j >= 0) {
         if (exists(i, j)) return j;
     }
+    return -1;
 }
 
 template <class Tv, class Te>
