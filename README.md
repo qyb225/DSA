@@ -1,4 +1,4 @@
-# Learning
+# DSA_CPP
 
 ---
 
@@ -7,7 +7,7 @@
 
 ---
 
-##Tips: 内存泄漏检测方法(VS)：
+##Tips1: 内存泄漏检测方法(VS)：
 
 ```cpp
 #define CRTDBG_MAP_ALLOC
@@ -34,4 +34,64 @@ void func() {
     int* p = new int[10];
     //delete[] p;
 }
+```
+
+##Tips2: C++11 lambda表达式代替函数对象：
+```cpp
+template <class T>
+class visit {
+public:
+    void operator()(T e) { cout << e << " "; }
+};
+
+template <class T>
+auto visit = [](T e) { cout << ++e << " "; };
+```
+两者功能类似
+
+**E.g.**
+```cpp
+//对于BinTree的中序遍历：
+class BinTree {
+//...
+public:
+    template <class VST> void travePre(VST & visit);
+//...
+};
+```
+
+**1. lambda表达式调用：**
+```cpp
+#include <iostream>
+
+template <class T>
+auto visit = [](T e) { cout << ++e << " "; };
+
+int main() {
+    BST<int> t; //Binary Search Tree.
+    t.insert(5);
+    t.insert(7);
+    t.traveIn(visit<int>); //Difference
+    return 0;
+}
+```
+
+**2. 传统函数对象调用：**
+```cpp
+#include <iostream>
+
+template <class T>
+class visit {
+public:
+    void operator()(T e) { std::cout << e << " "; }
+};
+
+int main() {
+    BST<int> t; //Binary Search Tree.
+    t.insert(5);
+    t.insert(7);
+    t.traveIn(visit<int>()); 
+    return 0;
+}
+
 ```
