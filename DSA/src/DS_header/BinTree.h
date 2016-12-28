@@ -13,8 +13,8 @@ struct BinNode {
     int size();
     BinNode()
         : parent(NULL), lChild(NULL), rChild(NULL), height(0), __size(1) {}
-    BinNode(const T& d)
-        : data(d), parent(NULL), lChild(NULL), rChild(NULL), height(0), __size(1) {}
+    BinNode(const T& d, BinNode<T>* p = NULL)
+        : data(d), parent(p), lChild(NULL), rChild(NULL), height(0), __size(1) {}
     BinNode(const T& d, int h, int s)
         : data(d), height(h), __size(s), parent(NULL), lChild(NULL), rChild(NULL) {}
     template <class VST> void traveLevel(VST &);
@@ -26,10 +26,9 @@ struct BinNode {
 
 template <class T>
 class BinTree {
-private:
+protected:
     int _size;
     BinNode<T>* _root;
-protected:
     virtual int updateHeight(BinNode<T>*);
     void updateHeightAbove(BinNode<T>*);
     BinNode<T>* copyNode(const BinNode<T>*);
@@ -86,6 +85,25 @@ void BinNode<T>::insertAsRC(BinNode<T>* r) {
     rChild = r;
     r->parent = this;
     __size += r->__size;
+}
+
+template <class T>
+BinNode<T>* BinNode<T>::succ() {
+    BinNode<T>* p = this;
+    if (rChild) {
+        p = rChild;
+        while (p->lChild) {
+            p = p->lChild;
+        }
+        return p;
+    }
+    else {
+        while (p->parent->rChild == p) {
+            p = p->parent;
+        }
+        return p->parent;
+    }
+    return NULL;
 }
 
 //1.1 travelPre
