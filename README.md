@@ -38,12 +38,14 @@ void func() {
 
 ##Tips2: C++11 lambda表达式代替函数对象：
 ```cpp
+//1. Function object
 template <class T>
 class visit {
 public:
     void operator()(T e) { cout << e << " "; }
 };
 
+//2. Lambda expression
 template <class T>
 auto visit = [](T e) { cout << ++e << " "; };
 ```
@@ -52,26 +54,34 @@ auto visit = [](T e) { cout << ++e << " "; };
 **E.g.**
 ```cpp
 //对于BinTree的中序遍历：
+template<class T>
 class BinTree {
 //...
 public:
-    template <class VST> void travePre(VST & visit);
+    template <class VST> void travePre(VST & visit); //Need a function object.
 //...
 };
+
+template<class T>
+class BST: public BinTree<T> {
+//...
+};
+
 ```
 
 **1. lambda表达式调用：**
 ```cpp
 #include <iostream>
+#include "BST.h"
 
 template <class T>
-auto visit = [](T e) { cout << ++e << " "; };
+auto visit = [](T e) { std::cout << ++e << " "; };
 
 int main() {
     BST<int> t; //Binary Search Tree.
     t.insert(5);
     t.insert(7);
-    t.traveIn(visit<int>); //Difference
+    t.traveIn(visit<int>); //No brackets ()
     return 0;
 }
 ```
@@ -79,6 +89,7 @@ int main() {
 **2. 传统函数对象调用：**
 ```cpp
 #include <iostream>
+#include "BST.h"
 
 template <class T>
 class visit {
