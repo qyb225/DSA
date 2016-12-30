@@ -75,7 +75,7 @@ class BST: public BinTree<T> {
 #include "BST.h"
 
 template <class T>
-auto visit = [](T e) { std::cout << ++e << " "; };
+auto visit = [](T e) { std::cout << e << " "; };
 
 int main() {
     BST<int> t; //Binary Search Tree.
