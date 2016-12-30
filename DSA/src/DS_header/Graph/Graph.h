@@ -1,8 +1,8 @@
 #ifndef GRAPH_H
 #define GRAPH_H
-#include "Vector.h"
-#include "Stack.h"
-#include "Queue.h"
+#include "../Vector/Vector.h"
+#include "../Stack/Stack.h"
+#include "../Queue/Queue.h"
 
 typedef enum { UNDISCOVERED, DISCOVERED, VISITED } VStatus;
 typedef enum { UNDETERMINED, TREE, CROSS, FORWARD, BACKWARD } EStatus;

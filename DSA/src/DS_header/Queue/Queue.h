@@ -1,6 +1,6 @@
 #ifndef QUEUE_H
 #define QUEUE_H
-#include "List.h"
+#include "../List/List.h"
 
 template <class T>
 class Queue : public List<T> {

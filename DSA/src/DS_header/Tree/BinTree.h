@@ -1,7 +1,7 @@
 #ifndef BINTREE_H
 #define BINTREE_H
-#include "Stack.h"
-#include "Queue.h"
+#include "../Stack/Stack.h"
+#include "../Queue/Queue.h"
 template <class T>
 struct BinNode {
     BinNode<T>* parent, *lChild, *rChild;

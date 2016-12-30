@@ -1,6 +1,6 @@
 #ifndef STACK_H
 #define STACK_H
-#include "Vector.h"
+#include "../Vector/Vector.h"
 
 template <class T>
 class Stack : public Vector<T> {
