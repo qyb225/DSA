@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include <cstdlib>
-#include "../DS_header/Stack.h"
+#include "../DS_header/Stack/Stack.h"
 using namespace std;
 
 bool paren(string exp) {

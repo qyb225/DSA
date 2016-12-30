@@ -1,5 +1,5 @@
 #include <string>
-#include "../DS_header/Stack.h"
+#include "../DS_header/Stack/Stack.h"
 using namespace std;
 
 bool paren(string exp); //Brace matching(only "()").
