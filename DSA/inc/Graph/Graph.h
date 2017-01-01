@@ -134,6 +134,7 @@ void Graph<Tv, Te>::BFS(int v, int& _clock) {
         for (int u = firstNbr(v); u > -1; u = nextNbr(v, u)) {
             if (UNDISCOVERED == status(u)) {
                 status(u) = DISCOVERED;
+                q.enqueue(u);
                 status(v, u) = TREE;
                 parent(u) = v;
             } else
