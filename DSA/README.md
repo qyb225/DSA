@@ -96,6 +96,16 @@ PS，基础数据结构为T
 
 ###API：
 
+1. **Queue();**
+2. **bool empty();**
+3. **void enqueue(T e);**
+元素 e 进队。
+4. **T dequeue();**
+出队。
+5. **T& front();**
+返回队首元素引用。
+6. **int size();**
+
 
 ---
 
