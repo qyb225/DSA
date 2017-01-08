@@ -106,3 +106,51 @@ int main() {
 }
 
 ```
+##Tips2: Ëæ»úÏ´ÅÆº¯Êý²âÊÔBST£º
+
+```cpp
+#include "BST.h"
+#include <iostream>
+#include <ctime>
+#include <cstdlib>
+#include <crtdbg.h>
+#define CRTDBG_MAP_ALLOC
+using namespace std;
+
+template <class T>
+auto visit = [](const T& e) { cout << e << " "; };
+void func();
+int main() {
+    func();
+    _CrtDumpMemoryLeaks();
+
+    return 0;
+}
+
+void func() {
+    BST<int> t;
+    
+//  Creat random number.
+    int a[100], b[100];
+    srand((unsigned)time(NULL));
+    for (int i = 0; i < 100; ++i) a[i] = i;
+    for (int i = 99; i >= 1; --i) swap(a[i], a[rand() % i]);
+    for (int i = 0; i < 100; ++i) b[i] = i;
+    for (int i = 99; i >= 1; --i) swap(b[i], b[rand() % i]);
+    
+//  Creat Binary Search Tree.
+    for (int i = 0; i < 100; ++i) t.insert(a[i]);
+    t.traveIn(visit<int>); //Check
+    cout << endl;
+    
+// Remove and Check.    
+    for (int i = 0; i < 100; ++i) {
+        t.remove(b[i]);
+        if (b[i] % 10 == 0) {
+            cout << "Delete " << b[i] << endl;
+            t.traveIn(visit<int>);
+            cout << endl;
+        }
+    }
+}
+```
