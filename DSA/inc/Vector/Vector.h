@@ -206,14 +206,15 @@ int Vector<T>::search(const T& e, int lo, int hi) {
     return lo - 1;
 }
 
-template <class T>
+template <class T>f
 int Vector<T>::search(const T& e) {
     return search(e, 0, _rank);
 }
 
 template <class T>
 void Vector<T>::sort() {
-    merge_sort(0, _rank);
+    if (_rank > 100) merge_sort(0, _rank);
+    else bubble_sort();
 }
 
 template <class T>
