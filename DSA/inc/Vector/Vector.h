@@ -3,11 +3,10 @@
 #include <iostream>
 template <class T>
 class Vector {
-private:
+protected:
     int _rank;
     int _capacity;
     T* _elem;
-protected:
     void copyForm(T* t, int lo, int hi); //Copy the array to vector.
     void expand(); //increase _capacity.
     void bubble_sort();
