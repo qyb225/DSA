@@ -9,9 +9,12 @@ protected:
     T* _elem;
     void copyForm(T* t, int lo, int hi); //Copy the array to vector.
     void expand(); //increase _capacity.
+    void swap_data(T&, T&);
+    int pivot(int, int);
     void bubble_sort();
     void merge_sort(int, int); //Complish merge sort algorithm
     void merge(int, int, int); //Complish merge sort algorithm
+    void quick_sort(int, int);
 public:
     Vector(int c = 8) {_elem = new T[c]; _rank = 0; _capacity = c;}
     Vector(int c, const T&);
@@ -206,15 +209,16 @@ int Vector<T>::search(const T& e, int lo, int hi) {
     return lo - 1;
 }
 
-template <class T>f
+template <class T>
 int Vector<T>::search(const T& e) {
     return search(e, 0, _rank);
 }
 
 template <class T>
 void Vector<T>::sort() {
-    if (_rank > 100) merge_sort(0, _rank);
-    else bubble_sort();
+    if (_rank <= 100) bubble_sort();
+    else if (_rank < 4000000) quick_sort(0, _rank);
+    else merge_sort(0, _rank);
 }
 
 template <class T>
@@ -267,6 +271,36 @@ void Vector<T>::merge(int lo, int mi, int hi) {
         _elem[l++] = order[count++];
     delete [] order;
     return;
+}
+
+template <class T>
+void Vector<T>::quick_sort(int lo, int hi) {
+    if (hi - lo < 2) return;
+    int piv = pivot(lo, hi - 1);
+    int i = lo, j = piv - 1;
+    while (i <= j) {
+        while (_elem[i] < _elem[piv]) ++i;
+        while (_elem[j] >= _elem[piv]) --j;
+        if (i < j) swap_data(_elem[i], _elem[j]);
+    }
+    swap_data(_elem[i], _elem[piv]);
+    quick_sort(i + 1, hi);
+    quick_sort(lo, i);
+}
+
+template <class T>
+int Vector<T>::pivot(int lo, int hi) {
+    int mi = (lo + hi) >> 1;
+    if (_elem[mi] < _elem[lo]) swap_data(_elem[lo], _elem[mi]);
+    if (_elem[mi] < _elem[hi]) swap_data(_elem[mi], _elem[hi]);
+    return hi;
+}
+
+template <class T>
+void Vector<T>::swap_data(T& a, T& b) {
+    T temp = a;
+    a = b;
+    b = temp;
 }
 
 #endif
