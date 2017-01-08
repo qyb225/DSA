@@ -206,7 +206,7 @@ void BinTree<T>::creatRoot(const T& e) {
     if (!empty()) remove(_root_p);
     _root = new BinNode<T>(e);
     _size = 1;
-    _root_p = new BinNode<T>(T());
+    if (!_root_p)_root_p = new BinNode<T>(T());
     _root_p->lChild = _root;
     _root->parent = _root_p;
 }
