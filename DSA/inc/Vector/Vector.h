@@ -11,9 +11,9 @@ protected:
     void expand(); //increase _capacity.
     void swap_data(T&, T&);
     int pivot(int, int);
+    void merge(int, int, int);
     void bubble_sort();
-    void merge_sort(int, int); //Complish merge sort algorithm
-    void merge(int, int, int); //Complish merge sort algorithm
+    void merge_sort(int, int);
     void quick_sort(int, int);
 public:
     Vector(int c = 8) {_elem = new T[c]; _rank = 0; _capacity = c;}
@@ -26,6 +26,7 @@ public:
     void push_back(const T&); //Add a member.
     int insert(int, const T&); //Add a member in front of i.
     int size() const {return _rank;}
+    bool empty() { return _rank == 0; }
     int remove(int, int); //Remove vector[i, j). A loop: _elem[i++] = _elem[j++]
     T remove(int); //Remove vector[i].
     int find(const T&, int, int); //disordered
@@ -34,10 +35,11 @@ public:
     int search(const T&); // 1. e exist, return the last one. 2. e isn't exist, return one smaller than e.
     T& operator[] (int r) const;
     int deduplicate(); //disordered
-    //void traverse(VST &); //function object. operator();
+    template <class VST> void traverse(VST&); //function object. operator();
     int disordered(); //return the number of disordered pair.
     int uniquify(); //ordered
     void sort();
+    void heap_sort(); //Only when include "PQ_ComplHeap.h"
 };
 
 template <class T>
@@ -168,12 +170,13 @@ int Vector<T>::deduplicate() { //disordered
     }
     return old_size - _rank;
 }
-/*
-template <class T, class VST>
+
+template <class T>
+template <class VST>
 void Vector<T>::traverse(VST & func) {
     for (int i = 0; i < _rank; ++i)
        func(_elem[i]);
-}*/
+}
 
 template <class T>
 int Vector<T>::disordered() {
