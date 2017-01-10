@@ -23,6 +23,7 @@ public:
     virtual bool put(K, V);
     virtual V* get(K);
     virtual bool remove(K);
+    V& operator[](K k) { return *(get(k)); }
 };
 
 template <class K, class V, class S>
