@@ -1,34 +1,12 @@
+#include "../../inc/Stack/Stack.h"
 #include <iostream>
 #include <string>
-#include <cstdlib>
-#include "../DS_header/Stack/Stack.h"
 using namespace std;
 
-bool paren(string exp) {
-    Stack<char> s;
-    for (int i = 0; i < exp.size(); ++i) {
-        if (exp[i] == '(')
-            s.push(exp[i]);
-        else if (!s.empty())
-            s.pop();
-        else
-            return false;
-    }
-    return s.empty();
-}
-
-string conversion(int num, int base) {
-    char digit[17] = "0123456789BCDEF";
-    Stack<char> num_conv;
-    string ans = "";
-    while (num > 0) {
-        num_conv.push(digit[num % base]);
-        num /= base;
-    }
-    while (!num_conv.empty())
-        ans += num_conv.pop();
-    return ans;
-}
+char optr_cmp(char a, char b);
+bool is_digit(char a);
+double calculate_express(char* express);
+double calc(double a, double b, char op);
 
 double calc(double a, double b, char op) {
     if ('*' == op)
@@ -98,20 +76,4 @@ double calculate_express(char* express) {
         }
     }
     return num.top();
-}
-
-template <class T>
-bool if_stack_mix(T * a, T * b, int n) { //if b is a zhx of a;
-    Stack<T> S, A, B;
-    int i = 0, j = 0;
-    S.push(a[i]);
-    while (i < n && j < n) {
-        if (S.top() == b[j]) ++j;
-        else {
-            ++i;
-            if (i < n) S.push(a[i]);
-        }
-    }
-    if (j < n) return false;
-    return true;
 }
