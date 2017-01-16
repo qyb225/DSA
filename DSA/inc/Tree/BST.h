@@ -70,24 +70,32 @@ BinNode<T>* BST<T>::removeAt(BinNode<T>* target) {
         delete p;
     }
     else if (target->lChild) {
-        if (_hot->lChild == target) _hot->lChild = target->lChild;
+        if (target == _root) {
+            _root = target->lChild;
+            target->lChild->parent = NULL;
+        }
+        else if (_hot->lChild == target) _hot->lChild = target->lChild;
         else _hot->rChild = target->lChild;
         target->lChild->parent = _hot;
         delete target;
     }
     else if (target->rChild) {
-        if (_hot->lChild == target) _hot->lChild = target->rChild;
+        if (target == _root) {
+            _root = target->rChild;
+            target->rChild->parent = NULL;
+        }
+        else if (_hot->lChild == target) _hot->lChild = target->rChild;
         else _hot->rChild = target->rChild;
         target->rChild->parent = _hot;
         delete target;
     }
     else {
-        if (_hot->rChild == target) _hot->rChild = NULL;
+        if (target == _root) _root = NULL;
+        else if (_hot->rChild == target) _hot->rChild = NULL;
         else _hot->lChild = NULL;
         delete target;
     }
     --_size;
-    _root = _root_p->lChild;
     return _hot;
 }
 

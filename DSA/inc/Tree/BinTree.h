@@ -29,7 +29,6 @@ class BinTree {
 protected:
     int _size;
     BinNode<T>* _root;
-    BinNode<T>* _root_p;
     virtual int updateHeight(BinNode<T>*);
     void updateHeightAbove(BinNode<T>*);
     BinNode<T>* copyNode(const BinNode<T>*);
@@ -56,7 +55,7 @@ public:
     template <class VST> void traveIn(VST & visit) { _root->traveIn(visit); }
     template <class VST> void travePost(VST & visit) { _root->travePost(visit); }
     template <class VST> void traveLevel(VST & visit) { _root->traveLevel(visit); }
-    ~BinTree() { if (_size > 0) remove(_root_p); }
+    ~BinTree() { if (_size > 0) remove(_root); }
 };
 
 template <class T, class VST>
@@ -176,18 +175,14 @@ void BinNode<T>::traveLevel(VST& visit) {
 //2. BinTree
 template <class T>
 BinTree<T>::BinTree(const T& e) {
-    _root_p = new BinNode<T>(T());
     _root = new BinNode<T>(e);
-    _root_p->lChild = _root;
-    _root->parent = _root_p;
     _size = 1;
 }
 
 template <class T>
 BinTree<T>::BinTree(const BinTree<T>& temp) {
     _size = temp._size;
-    _root_p = copyNode(temp._root_p);
-    _root = _root_p->lChild;
+    _root = copyNode(temp._root);
 }
 
 template <class T>
@@ -195,20 +190,14 @@ BinTree<T>::BinTree(BinNode<T>* r): _size(0), _root(NULL) {
     if (!(r->parent)) {
         _size = r->size();
         _root = r;
-        _root_p = new BinNode<T>(T());
-        _root_p->lChild = _root;
-        _root->parent = _root_p;
     }
 }
 
 template <class T>
 void BinTree<T>::creatRoot(const T& e) {
-    if (!empty()) remove(_root_p);
+    if (!empty()) remove(_root);
     _root = new BinNode<T>(e);
     _size = 1;
-    if (!_root_p)_root_p = new BinNode<T>(T());
-    _root_p->lChild = _root;
-    _root->parent = _root_p;
 }
 
 template <class T>
