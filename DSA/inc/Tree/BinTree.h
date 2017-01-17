@@ -2,6 +2,7 @@
 #define BINTREE_H
 #include "../Stack/Stack.h"
 #include "../Queue/Queue.h"
+
 template <class T>
 struct BinNode {
     BinNode<T>* parent, *lChild, *rChild;
@@ -32,6 +33,7 @@ protected:
     virtual int updateHeight(BinNode<T>*);
     void updateHeightAbove(BinNode<T>*);
     BinNode<T>* copyNode(const BinNode<T>*);
+    int stature(const BinNode<T>* p) { return (p)? p->height: -1; }
 public:
     BinTree() { _size = 0; _root = NULL; }
     BinTree(const T &);
