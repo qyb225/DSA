@@ -139,6 +139,7 @@ void func() {
     for (int i = 99; i >= 1; --i) swap(b[i], b[rand() % i]);
     
 //  Creat Binary Search Tree.
+    t.insert(100); //In order to check root removing.
     for (int i = 0; i < 100; ++i) t.insert(a[i]);
     t.traveIn(visit<int>); //Check
     cout << endl;
@@ -152,5 +153,8 @@ void func() {
             cout << endl;
         }
     }
+    t.remove(100);
+    t.traveIn(visit<int>);
+    cout << endl;
 }
 ```
