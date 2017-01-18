@@ -6,9 +6,6 @@ template <class T>
 class BST: public BinTree<T> {
 protected:
     BinNode<T>* _hot; //命中结点的父亲
-    BinNode<T>* connect34(BinNode<T>*, BinNode<T>*, BinNode<T>*,
-        BinNode<T>*, BinNode<T>*, BinNode<T>*, BinNode<T>*); //3+4重构
-    BinNode<T>* rotateAt(BinNode<T>*); //旋转调整
 public:
     BinNode<T>* searchIn(const T&, BinNode<T>*);
     BinNode<T>* removeAt(BinNode<T>*);
@@ -53,12 +50,14 @@ BinNode<T>* BST<T>::insert(const T& e) {
 
 template <class T>
 BinNode<T>* BST<T>::removeAt(BinNode<T>* target) {
-    if (!target) return false;
+    if (!target) return NULL;
+    BinNode<T>* suc = NULL;
     if (target->lChild && target->rChild) {
         BinNode<T>* p = target;
         p = p->rChild;
         while (p->lChild) p = p->lChild;
         target->data = p->data;
+        suc = p->rChild;
         if (target->rChild == p) {
             target->rChild = p->rChild;
             if (p->rChild) p->rChild->parent = target;
@@ -70,6 +69,7 @@ BinNode<T>* BST<T>::removeAt(BinNode<T>* target) {
         delete p;
     }
     else if (target->lChild) {
+        suc = target->lChild;
         if (target == _root) {
             _root = target->lChild;
             target->lChild->parent = NULL;
@@ -80,6 +80,7 @@ BinNode<T>* BST<T>::removeAt(BinNode<T>* target) {
         delete target;
     }
     else if (target->rChild) {
+        suc = target->rChild;
         if (target == _root) {
             _root = target->rChild;
             target->rChild->parent = NULL;
@@ -90,13 +91,15 @@ BinNode<T>* BST<T>::removeAt(BinNode<T>* target) {
         delete target;
     }
     else {
+        suc = NULL;
         if (target == _root) _root = NULL;
         else if (_hot->rChild == target) _hot->rChild = NULL;
         else _hot->lChild = NULL;
         delete target;
     }
     --_size;
-    return _hot;
+    if (suc) _hot = suc->parent;
+    return suc;
 }
 
 template <class T>

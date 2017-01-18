@@ -204,16 +204,8 @@ void BinTree<T>::creatRoot(const T& e) {
 
 template <class T>
 int BinTree<T>::updateHeight(BinNode<T>* x) {
-    int lHeight, rHeight;
-    if (x->lChild)
-        lHeight = x->lChild->height;
-    else
-        lHeight = 0;
-    if (x->rChild)
-        rHeight = x->rChild->height;
-    else
-        rHeight = 0;
-
+    int lHeight = stature(x->lChild); 
+    int rHeight = stature(x->rChild);
     x->height = 1 + max(lHeight, rHeight);
     return x->height;
 }
