@@ -239,12 +239,21 @@ BinNode<T>* BinTree<T>::insertAsRC(const T& e, BinNode<T>* x) {
 template <class T>
 int BinTree<T>::remove(BinNode<T>* x) {
     if (!x) return 0;
-    int temp = 1;
-    if (x->lChild) temp += remove(x->lChild);
-    if (x->rChild) temp += remove(x->rChild);
-    delete x;
-    x = NULL;
-    --_size;
+    int temp = 0;
+    Stack<BinNode<T>*> s;
+    BinNode<T>* l = NULL;
+    BinNode<T>* r = NULL;
+    s.push(x);
+    while (!s.empty()) {
+        x = s.pop();
+        l = x->lChild;
+        r = x->rChild;
+        delete x;
+        --_size;
+        ++temp;
+        if (l) s.push(l);
+        if (r) s.push(r);
+    }
     return temp;
 }
 
