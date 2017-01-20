@@ -11,7 +11,7 @@
 * Stack
 * Queue
 * Entry
-* Tree - BinTree, BST, BBST (AVL-Tree, B-Tree, RB-Tree)
+* Tree: BinTree, BST(AVL Tree, Splay Tree, B-Tree, RB Tree)
 * Graph
 * Dictionary (Hash)
 * Heap (Priority Queue)
