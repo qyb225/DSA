@@ -78,15 +78,19 @@ int BinNode<T>::size() {
 template <class T>
 void BinNode<T>::insertAsLC(BinNode<T>* l) {
     lChild = l;
-    l->parent = this;
-    __size += l->__size;
+    if (l) {
+        l->parent = this;
+        __size += l->__size;
+    }
 }
 
 template <class T>
 void BinNode<T>::insertAsRC(BinNode<T>* r) {
     rChild = r;
-    r->parent = this;
-    __size += r->__size;
+    if (r) {
+        r->parent = this;
+        __size += r->__size;
+    }
 }
 
 template <class T>
