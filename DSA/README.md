@@ -1,4 +1,4 @@
-﻿# DSA：数据结构与算法
+﻿# Data Structure & Algorithm
 
 ---
 
@@ -11,7 +11,7 @@
 * Stack
 * Queue
 * Entry
-* Tree: BinTree, BST(AVL Tree, Splay Tree, B-Tree, RB Tree)
+* Tree: BinTree, BST, AVL-Tree, Splay-Tree, B-Tree, RB-Tree
 * Graph
-* Dictionary (Hash)
-* Heap (Priority Queue)
+* Dictionary: Hash
+* Heap: Priority Queue
