@@ -43,6 +43,7 @@ public:
     void sort();
     void heap_sort(); //Only when include "PQ_ComplHeap.h"
     Vector<T> split(int);
+    void merge(const Vector<T>&);
 };
 
 template <class T>
@@ -100,6 +101,12 @@ Vector<T>::Vector(const Vector<T>& temp) {
         _elem[_rank] = temp._elem[_rank];
         ++_rank;
     }
+}
+
+template <class T>
+void Vector<T>::merge(const Vector<T>& temp) {
+    for (int i = 0; i < temp._rank; ++i)
+        push_back(temp[i]);
 }
 
 template <class T>
