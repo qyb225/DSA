@@ -16,16 +16,18 @@ protected:
     void merge_sort(int, int);
     void quick_sort(int, int);
 public:
-    Vector(int c = 8) {_elem = new T[c]; _rank = 0; _capacity = c;}
+    Vector(int c = 8) { _elem = new T[c]; _rank = 0; _capacity = c; }
     Vector(int c, const T&);
-    Vector(T* t, int lo, int hi) {copyForm(t, lo, hi);}
-    Vector(Vector<T>&);
+    Vector(T* t, int lo, int hi) { copyForm(t, lo, hi); }
+    Vector(const Vector<T>&);
+    Vector(const Vector<T>& v, int lo, int hi) { copyForm(v._elem, lo, hi); }
     Vector<T>& operator= (const Vector<T>&);
-    ~Vector() {if(_elem) delete [] _elem;}
+    ~Vector() { if (_elem) delete[] _elem; }
     void show(); //Display the member in vector in one line.
     void push_back(const T&); //Add a member.
+    T pop_back() { return _elem[--_rank]; }
     int insert(int, const T&); //Add a member in front of i.
-    int size() const {return _rank;}
+    int size() const { return _rank; }
     bool empty() { return _rank == 0; }
     int remove(int, int); //Remove vector[i, j). A loop: _elem[i++] = _elem[j++]
     T remove(int); //Remove vector[i].
@@ -40,6 +42,7 @@ public:
     int uniquify(); //ordered
     void sort();
     void heap_sort(); //Only when include "PQ_ComplHeap.h"
+    Vector<T> split(int);
 };
 
 template <class T>
@@ -71,36 +74,43 @@ template <class T>
 Vector<T>& Vector<T>::operator= (const Vector<T> & temp) {
     _capacity = temp._capacity;
     if (_elem != NULL)
-        delete [] _elem;
+        delete[] _elem;
     _rank = 0;
     _elem = new T[_capacity];
     while (_rank < temp._rank) {
-       _elem[_rank] = temp._elem[_rank];
-       ++_rank;
+        _elem[_rank] = temp._elem[_rank];
+        ++_rank;
     }
     return *this;
 }
 
 template <class T>
-Vector<T>::Vector(Vector<T>& temp) {
+Vector<T> Vector<T>::split(int hi) {
+    Vector<T> ans(_elem, hi, _rank);
+    _rank = hi;
+    return ans;
+}
+
+template <class T>
+Vector<T>::Vector(const Vector<T>& temp) {
     _capacity = temp._capacity;
     _rank = 0;
     _elem = new T[_capacity];
     while (_rank < temp._rank) {
-       _elem[_rank] = temp._elem[_rank];
-       ++_rank;
+        _elem[_rank] = temp._elem[_rank];
+        ++_rank;
     }
 }
 
 template <class T>
 void Vector<T>::expand() {
     if (_rank < _capacity)
-       return;
+        return;
     _capacity = _capacity * 2 + 1;
     T* n_elem = new T[_capacity];
     for (int i = 0; i < _rank; ++i)
-       n_elem[i] = _elem[i];
-    delete [] _elem;
+        n_elem[i] = _elem[i];
+    delete[] _elem;
     _elem = n_elem;
 }
 
@@ -120,7 +130,7 @@ template <class T>
 int Vector<T>::insert(int r, const T& in) {
     expand();
     for (int i = _rank; i > r; --i)
-       _elem[i] = _elem[i - 1];
+        _elem[i] = _elem[i - 1];
     ++_rank;
     _elem[r] = in;
     return r;
@@ -129,7 +139,7 @@ int Vector<T>::insert(int r, const T& in) {
 template <class T>
 int Vector<T>::remove(int lo, int hi) {
     while (hi < _rank) {
-       _elem[lo++] = _elem[hi++];
+        _elem[lo++] = _elem[hi++];
     }
     _rank = _rank - (hi - lo);
     return hi - lo;
@@ -146,11 +156,11 @@ template <class T>
 int Vector<T>::find(const T& e, int lo, int hi) {
     int i;
     for (i = hi - 1; i >= lo; --i) {
-       if (e ==_elem[i])
-         return i;
+        if (e == _elem[i])
+            return i;
     }
     if (i == lo - 1)
-       return -1;
+        return -1;
 }
 
 template <class T>
@@ -163,10 +173,10 @@ int Vector<T>::deduplicate() { //disordered
     int i = 1;
     int old_size = _rank;
     while (i < _rank) {
-       if (-1 == find(_elem[i], 0, i))
-         ++i;
-       else
-         remove(i);
+        if (-1 == find(_elem[i], 0, i))
+            ++i;
+        else
+            remove(i);
     }
     return old_size - _rank;
 }
@@ -175,15 +185,15 @@ template <class T>
 template <class VST>
 void Vector<T>::traverse(VST & func) {
     for (int i = 0; i < _rank; ++i)
-       func(_elem[i]);
+        func(_elem[i]);
 }
 
 template <class T>
 int Vector<T>::disordered() {
     int count = 0;
     for (int i = 1; i < _rank; ++i) {
-       if (_elem[i - 1] > _elem[i])
-         ++count;
+        if (_elem[i - 1] > _elem[i])
+            ++count;
     }
     return count;
 }
@@ -192,8 +202,8 @@ template <class T>
 int Vector<T>::uniquify() { //ordered
     int i = 0, j = 0;
     while (++j < _rank) {
-       if (_elem[i] != _elem[j])
-         _elem[++i] = _elem[j];
+        if (_elem[i] != _elem[j])
+            _elem[++i] = _elem[j];
     }
     _rank = ++i;
     return j - i;
@@ -203,11 +213,11 @@ template <class T>
 int Vector<T>::search(const T& e, int lo, int hi) {
     int mi;
     while (lo < hi) {
-       mi = (lo + hi) / 2; 
-       if (e < _elem[mi])
-         hi = mi;
-       else
-         lo = mi + 1;
+        mi = (lo + hi) / 2;
+        if (e < _elem[mi])
+            hi = mi;
+        else
+            lo = mi + 1;
     }
     return lo - 1;
 }
@@ -229,16 +239,16 @@ void Vector<T>::bubble_sort() {
     int n = _rank;
     int sorted = false;
     while (n >= 1 && !sorted) {
-       sorted = true;
-       for (int i = 1; i < n; ++i) {
-         if (_elem[i] < _elem[i - 1]) {
-          sorted = false;
-          T swap = _elem[i];
-          _elem[i] = _elem[i - 1];
-          _elem[i - 1] = swap;
-         }
-       }
-       --n;
+        sorted = true;
+        for (int i = 1; i < n; ++i) {
+            if (_elem[i] < _elem[i - 1]) {
+                sorted = false;
+                T swap = _elem[i];
+                _elem[i] = _elem[i - 1];
+                _elem[i - 1] = swap;
+            }
+        }
+        --n;
     }
 }
 
@@ -272,7 +282,7 @@ void Vector<T>::merge(int lo, int mi, int hi) {
     count = 0;
     while (l < hi)
         _elem[l++] = order[count++];
-    delete [] order;
+    delete[] order;
     return;
 }
 
