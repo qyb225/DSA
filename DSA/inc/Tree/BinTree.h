@@ -3,21 +3,25 @@
 #include "../Stack/Stack.h"
 #include "../Queue/Queue.h"
 
+typedef enum { RB_BLACK, RB_RED} RB_Color;
+
 template <class T>
 struct BinNode {
     BinNode<T>* parent, *lChild, *rChild;
     int height, __size;
+    RB_Color color; //红黑树
+    int npl; //左式堆
     T data;
     void insertAsLC(BinNode<T>*);
     void insertAsRC(BinNode<T>*);
     BinNode<T>* succ();
     int size();
     BinNode()
-        : parent(NULL), lChild(NULL), rChild(NULL), height(0), __size(1) {}
+        : parent(NULL), lChild(NULL), rChild(NULL), height(0), __size(1), color(RB_RED), npl(1) {}
     BinNode(const T& d, BinNode<T>* p = NULL)
-        : data(d), parent(p), lChild(NULL), rChild(NULL), height(0), __size(1) {}
+        : data(d), parent(p), lChild(NULL), rChild(NULL), height(0), __size(1), color(RB_RED), npl(1) {}
     BinNode(const T& d, int h, int s)
-        : data(d), height(h), __size(s), parent(NULL), lChild(NULL), rChild(NULL) {}
+        : data(d), height(h), __size(s), parent(NULL), lChild(NULL), rChild(NULL), color(RB_RED), npl(1) {}
     template <class VST> void traveLevel(VST &);
     template <class VST> void travePre_1(VST &);
     template <class VST> void travePre_2(VST &);
@@ -39,7 +43,7 @@ public:
     BinTree(const T &);
     BinTree(BinNode<T>*);
     BinTree(const BinTree<T>&);
-    void creatRoot(const T&);
+    BinNode<T>* creatRoot(const T&);
     int size() const { return _size; }
     bool empty() { return _size == 0; }
     BinNode<T>* root() { return _root; }
@@ -200,10 +204,12 @@ BinTree<T>::BinTree(BinNode<T>* r): _size(0), _root(NULL) {
 }
 
 template <class T>
-void BinTree<T>::creatRoot(const T& e) {
+BinNode<T>* BinTree<T>::creatRoot(const T& e) {
     if (!empty()) remove(_root);
     _root = new BinNode<T>(e);
+    _root->color = RB_BLACK;
     _size = 1;
+    return _root;
 }
 
 template <class T>
