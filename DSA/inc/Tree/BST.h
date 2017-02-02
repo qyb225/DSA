@@ -64,6 +64,7 @@ BinNode<T>* BST<T>::removeAt(BinNode<T>* target) {
         while (p->lChild) p = p->lChild;
         target->data = p->data;
         suc = p->rChild;
+        _hot = p->parent;
         if (target->rChild == p) {
             target->rChild = p->rChild;
             if (p->rChild) p->rChild->parent = target;
