@@ -9,8 +9,8 @@ protected:
     void solveDoubleBlack(BinNode<T>*); //双黑修正
     int updateHeight(BinNode<T>*);      //黑高度
     bool isBlack(BinNode<T>* x) { return !x || x->color == RB_BLACK; } //外部节点全部为黑色
-    BinNode<T>* rotateAt(BinNode<T>*);
-    BinNode<T>* removeAt(BinNode<T>*);
+    BinNode<T>* rotateAt(BinNode<T>*);  //3+4重构旋转
+    BinNode<T>* removeAt(BinNode<T>*);  //删除
 public:
     BinNode<T>* insert(const T&);
     bool remove(const T&);
