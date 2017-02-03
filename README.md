@@ -11,6 +11,7 @@
 * Stack
 * Queue
 * Entry
+* String
 * Tree: BinTree, BST, AVL-Tree, Splay-Tree, B-Tree, RB-Tree
 * Graph
 * Dictionary: Hash
