@@ -28,8 +28,8 @@ protected:
     int _order; //阶次
     BTNode<T>* _root;
     BTNode<T>* _hot; //search()访问最后非空节点位置
-    void solveOverflow(BTNode<T>*);  //因插入而上溢的分裂处理
-    void solveUnderflow(BTNode<T>*); //因删除而下溢的合并处理
+    void solveOverflow(BTNode<T>*);   //因插入而上溢的分裂处理
+    void solveUnderflow(BTNode<T>*);  //因删除而下溢的合并处理
 public:
     BTree(int m) : _size(0), _order(m), _root(NULL), _hot(NULL) {} //|key| < m, ⌈m / 2⌉ <= |child| <= m
     int size() const { return _size; }
