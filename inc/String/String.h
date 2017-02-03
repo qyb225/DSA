@@ -13,8 +13,8 @@ private:
     void expand(int);
 public:
     String(int c = 8) { _elem = new char[c]; _rank = 0; _capacity = c; _elem[0] = '\0'; }
-    String(char* s) { copyForm(s, 0, strlen(s)); }
-    String(char* s, int lo, int hi) { copyForm(s, lo, hi); }
+    String(char* s): _elem(NULL) { copyForm(s, 0, strlen(s)); }
+    String(char* s, int lo, int hi): _elem(NULL) { copyForm(s, lo, hi); }
     String(const String&);
     ~String() { if (_elem) delete[] _elem; }
     int size() const { return _rank; }
