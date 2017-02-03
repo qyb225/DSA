@@ -117,48 +117,62 @@ void BTree<T>::solveOverflow(BTNode<T>* v) {
 
 template <class T>
 void BTree<T>::solveUnderflow(BTNode<T>* v) {
-    while (v->parent && v->child.size() < (1 + _order) / 2) {
+    while ((_order + 1) / 2 > v->child.size()) {
         BTNode<T>* p = v->parent;
-        int r = p->key.search(v->key[0]);
-        if (r > -1 && p->child[r]->child.size() > (1 + _order) / 2) {
-            BTNode<T>* lc = p->child[r];
-            v->key.insert(0, p->key[r]);
-            v->child.insert(0, lc->child.pop_back());
-            p->key[r] = lc->key.pop_back();
+        if (!p) {
+            if (!v->key.size() && v->child[0]) {
+                _root = v->child[0]; _root->parent = NULL;
+                v->child[0] = NULL; if (v) delete v;
+            }
+            return;
         }
-        else if (r + 2 < p->child.size() && p->child[r + 2]->child.size() > (1 + _order) / 2) {
-            BTNode<T>* rc = p->child[r + 2];
-            v->key.push_back(p->key[r + 1]);
-            v->child.push_back(rc->child.remove(0));
-            p->key[r + 1] = rc->key.remove(0);
-        }
-        else if (r > -1) {
-            BTNode<T>* lc = p->child[r];
-            lc->key.push_back(p->key.remove(r));
-            p->child.remove(r + 1);
-            lc->key.merge(v->key);
-            lc->child.merge(v->child);
-            delete v;
-            if (p == _root && p->key.size() <= 0) {
-                delete _root;
-                _root = lc;
-                lc->parent = NULL;
+        int r = 0;
+        while (p->child[r] != v) r++;
+        if (0 < r) {
+            BTNode<T>* ls = p->child[r - 1];
+            if ((_order + 1) / 2 < ls->child.size()) {
+                v->key.insert(0, p->key[r - 1]);
+                p->key[r - 1] = ls->key.remove(ls->key.size() - 1);
+                v->child.insert(0, ls->child.remove(ls->child.size() - 1));
+                if (v->child[0]) v->child[0]->parent = v;
                 return;
             }
+        }
+        if (p->child.size() - 1 > r) {
+            BTNode<T>* rs = p->child[r + 1];
+            if ((_order + 1) / 2 < rs->child.size()) {
+                v->key.insert(v->key.size(), p->key[r]);
+                p->key[r] = rs->key.remove(0);
+                v->child.insert(v->child.size(), rs->child.remove(0));
+                if (v->child[v->child.size() - 1]) 
+                    v->child[v->child.size() - 1]->parent = v;
+                return;
+            }
+        }
+        if (0 < r) {
+            BTNode<T>* ls = p->child[r - 1];
+            ls->key.insert(ls->key.size(), p->key.remove(r - 1)); p->child.remove(r);
+            ls->child.insert(ls->child.size(), v->child.remove(0));
+            if (ls->child[ls->child.size() - 1])
+                ls->child[ls->child.size() - 1]->parent = ls;
+            ls->key.merge(v->key);
+            ls->child.merge(v->child);
+            for (int i = 0; i < v->child.size(); ++i) {
+                if (v->child[i]) v->child[i]->parent = ls;
+            }
+            if (v) delete v;
         }
         else {
-            BTNode<T>* rc = p->child[r + 2];
-            v->key.push_back(p->key.remove(r + 1));
-            p->child.remove(r + 2);
-            v->key.merge(rc->key);
-            v->child.merge(rc->child);
-            delete rc;
-            if (p == _root && p->key.size() <= 0) {
-                delete _root;
-                _root = v;
-                v->parent = NULL;
-                return;
+            BTNode<T>* rs = p->child[r + 1];
+            rs->key.insert(0, p->key.remove(r)); p->child.remove(r);
+            rs->child.insert(0, v->child.remove(v->child.size() - 1));
+            if (rs->child[0]) rs->child[0]->parent = rs;
+            rs->key.merge(v->key);
+            rs->child.merge(v->child);
+            for (int i = 0; i < v->child.size(); ++i) {
+                if (v->child[i]) v->child[i]->parent = rs;
             }
+            if (v) delete v;
         }
         v = p;
     }
