@@ -4,6 +4,11 @@
 #include <cstring>
 using namespace std;
 
+char* Strcpy(char*, const char*);
+char* Strcat(char*, const char*);
+int matchKMP(const char*, const char*);  //KMP匹配算法
+void buildNext(const char*, int*, int);  //构造next[]表
+
 class String {
 private:
     int _rank;
@@ -33,12 +38,10 @@ public:
     String operator+ (const char*);
     String& operator+= (const String& temp) { return concat(temp); }
     String& operator+= (const char*);
-    int indexOf(String&); //字符串索引匹配
+    int indexOf(String& temp) { return matchKMP(temp._elem, _elem); } //字符串索引匹配KMP
+    int indexOf(const char* p) { return matchKMP(p, _elem); }
     friend ostream& operator<< (ostream&, const String&);
 };
-
-char* Strcpy(char*, const char*);
-char* Strcat(char*, const char*);
 
 char* Strcpy(char* s1, const char* s2) {
     char* ret = s1;
@@ -51,6 +54,36 @@ char* Strcat(char* s1, const char* s2) {
     while (*s1) s1++;
     while ((*s1++ = *s2++) != '\0');
     return tmp;
+}
+
+int matchKMP(const char* p, const char* t) {
+    int m = strlen(p), j = 0;
+    int n = strlen(t), i = 0;
+    int* next = new int[m];
+    buildNext(p, next, m);
+    while (j < m && i < n) {
+        if (j < 0 || t[i] == p[j]) {
+            ++i;
+            ++j;
+        }
+        else {
+            j = next[j];
+        }
+    }
+    delete[] next;
+    return (i - j) <= (n - m) ? (i - j) : -1;
+}
+
+void buildNext(const char* p, int* next, int m) {
+    int j = 0;
+    int t = next[0] = -1;
+    while (j < m - 1) {
+        if (t < 0 || p[j] == p[t]) {
+            next[++j] = ++t;
+        }
+        else
+            t = next[t];
+    }
 }
 
 String::String(const String& temp) {
