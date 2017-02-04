@@ -13,17 +13,20 @@ private:
     void expand(int);
 public:
     String(int c = 8) { _elem = new char[c]; _rank = 0; _capacity = c; _elem[0] = '\0'; }
-    String(char* s): _elem(NULL) { copyForm(s, 0, strlen(s)); }
-    String(char* s, int lo, int hi): _elem(NULL) { copyForm(s, lo, hi); }
+    String(char* s) : _elem(NULL) { copyForm(s, 0, strlen(s)); }
+    String(char* s, int lo, int hi) : _elem(NULL) { copyForm(s, lo, hi); }
     String(const String&);
     ~String() { if (_elem) delete[] _elem; }
     int size() const { return _rank; }
     char& charAt(int i) { if (i < _rank) return _elem[i]; }
     char& operator[] (int i) { if (i < _rank) return _elem[i]; }
     String substr(int i, int k) { return String(_elem, i, i + k); }
+    String substr(int i) { return String(_elem, i, _rank); }
     String prefix(int k) { return String(_elem, 0, k); }               //[0, k)
     String suffix(int k) { return String(_elem, _rank - k, _rank); }   //[n - k, n)
     String& concat(const String&);
+    String& erase(int, int);
+    String& erase(int i) { _rank = i; _elem[_rank] = '\0'; return *this; }
     bool operator== (const String&);
     String& operator= (const String&);
     String operator+ (const String&);
@@ -94,6 +97,18 @@ String& String::concat(const String& temp) {
     }
     _elem[_rank] = '\0';
     return *this;
+}
+
+String& String::erase(int i, int n) {
+    if (i + n < _rank) {
+        int lo = i + n;
+        while (lo <= _rank)
+            _elem[i++] = _elem[lo++];
+        _rank -= n;
+        return *this;
+    }
+    else
+        return erase(i);
 }
 
 bool String::operator== (const String& temp) {
