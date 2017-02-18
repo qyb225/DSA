@@ -4,7 +4,7 @@
 
 > **inc** - header
 
-> **src** - source
+> **src** - source (include Tsinghua oj. Programming Assignment)
 
 * Vector
 * List
