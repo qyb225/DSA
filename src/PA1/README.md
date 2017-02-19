@@ -1,4 +1,4 @@
-#THU DSA PA#1
+﻿#THU DSA PA#1
 
 ---
 
@@ -140,7 +140,7 @@ Specially, "-" stands for an empty sequence.
 
 > AABBCCBA
 
-> -
+> *-*
 
 > A
 
