@@ -1,10 +1,11 @@
 # Data Structure & Algorithm
 
 ---
+> **algorithm_Java**
 
-> **inc** - header
+> **inc** - C++ header
 
-> **src** - source (include Tsinghua oj. Programming Assignment)
+> **src** - C++ source (include Tsinghua oj. Programming Assignment)
 
 * Vector
 * List
