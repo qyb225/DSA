@@ -311,6 +311,7 @@ void Vector<T>::quick_sort(int lo, int hi) {
 template <class T>
 int Vector<T>::pivot(int lo, int hi) {
     int mi = (lo + hi) >> 1;
+    if (_elem[hi] < _elem[lo]) swap_data(_elem[lo], _elem[hi]);
     if (_elem[mi] < _elem[lo]) swap_data(_elem[lo], _elem[mi]);
     if (_elem[mi] < _elem[hi]) swap_data(_elem[mi], _elem[hi]);
     return hi;
