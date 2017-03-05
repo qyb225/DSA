@@ -299,8 +299,8 @@ void Vector<T>::quick_sort(int lo, int hi) {
     int piv = pivot(lo, hi - 1);
     int i = lo, j = piv - 1;
     while (i <= j) {
-        while (_elem[i] < _elem[piv]) ++i;
-        while (_elem[j] >= _elem[piv]) --j;
+        while (i <= j && _elem[i] < _elem[piv]) ++i;
+        while (i <= j && _elem[j] >= _elem[piv]) --j;
         if (i < j) swap_data(_elem[i], _elem[j]);
     }
     swap_data(_elem[i], _elem[piv]);
