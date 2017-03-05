@@ -56,8 +56,8 @@ void quick_sort(int* nums, int lo, int hi) {
     int piv = pivot(nums, lo, hi - 1);
     int i = lo, j = piv - 1;
     while (i <= j) {
-        while (nums[i] < nums[piv]) ++i;
-        while (nums[j] >= nums[piv]) --j;
+        while (i <= j && nums[i] < nums[piv]) ++i;
+        while (i <= j && nums[j] >= nums[piv]) --j;
         if (i < j) {
             nums[i] ^= nums[j];
             nums[j] ^= nums[i];
