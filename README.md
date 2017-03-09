@@ -1,8 +1,6 @@
-# Data Structure & Algorithm
+ï»¿# Data Structure & Algorithm
 
 ---
-> **algorithm_Java**
-
 > **inc** - C++ header
 
 > **src** - C++ source (include Tsinghua oj. Programming Assignment)
@@ -20,7 +18,7 @@
 
 ---
 
-##Tips1: ÄÚ´æĞ¹Â©¼ì²â·½·¨(VS)£º
+##Tips1: å†…å­˜æ³„æ¼æ£€æµ‹æ–¹æ³•(VS)ï¼š
 
 ```cpp
 #define CRTDBG_MAP_ALLOC
@@ -49,7 +47,7 @@ void func() {
 }
 ```
 
-##Tips2: C++11 lambda±í´ïÊ½´úÌæº¯Êı¶ÔÏó£º
+##Tips2: C++11 lambdaè¡¨è¾¾å¼ä»£æ›¿å‡½æ•°å¯¹è±¡ï¼š
 ```cpp
 //1. Function object
 template <class T>
@@ -62,11 +60,11 @@ public:
 template <class T>
 auto visit = [](T e) { cout << ++e << " "; };
 ```
-Á½Õß¹¦ÄÜÀàËÆ
+ä¸¤è€…åŠŸèƒ½ç±»ä¼¼
 
 **E.g.**
 ```cpp
-//¶ÔÓÚBinTreeµÄÖĞĞò±éÀú£º
+//å¯¹äºBinTreeçš„ä¸­åºéå†ï¼š
 template<class T>
 class BinTree {
 //...
@@ -82,7 +80,7 @@ class BST: public BinTree<T> {
 
 ```
 
-**1. lambda±í´ïÊ½µ÷ÓÃ£º**
+**1. lambdaè¡¨è¾¾å¼è°ƒç”¨ï¼š**
 ```cpp
 #include <iostream>
 #include "BST.h"
@@ -99,7 +97,7 @@ int main() {
 }
 ```
 
-**2. ´«Í³º¯Êı¶ÔÏóµ÷ÓÃ£º**
+**2. ä¼ ç»Ÿå‡½æ•°å¯¹è±¡è°ƒç”¨ï¼š**
 ```cpp
 #include <iostream>
 #include "BST.h"
@@ -119,7 +117,7 @@ int main() {
 }
 
 ```
-##Tips2: Ëæ»úÏ´ÅÆº¯Êı²âÊÔBST£º
+##Tips2: éšæœºæ´—ç‰Œå‡½æ•°æµ‹è¯•BSTï¼š
 
 ```cpp
 #include "BST.h"
