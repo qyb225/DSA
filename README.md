@@ -18,7 +18,7 @@
 
 ---
 
-##Tips1: 内存泄漏检测方法(VS)：
+## Tips1: 内存泄漏检测方法(VS)：
 
 ```cpp
 #define CRTDBG_MAP_ALLOC
@@ -47,7 +47,7 @@ void func() {
 }
 ```
 
-##Tips2: C++11 lambda表达式代替函数对象：
+## Tips2: C++11 lambda表达式代替函数对象：
 ```cpp
 //1. Function object
 template <class T>
@@ -117,7 +117,7 @@ int main() {
 }
 
 ```
-##Tips2: 随机洗牌函数测试BST：
+## Tips2: 随机洗牌函数测试BST：
 
 ```cpp
 #include "BST.h"
