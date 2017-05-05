@@ -1,7 +1,8 @@
 ﻿# Data Structure & Algorithm
 
 ---
-> **inc** - C++ header
+
+> **inc** - C++ header (所有数据结构的实现代码)
 
 > **src** - C++ source (include Tsinghua oj. Programming Assignment)
 
@@ -11,10 +12,10 @@
 * Queue
 * Entry
 * String
-* Tree: BinTree, BST, AVL-Tree, Splay-Tree, B-Tree, RB-Tree
+* Tree: BinTree(二叉树), BST(二叉搜索树), AVL-Tree(AVL树), Splay-Tree(伸展树), B-Tree(B树), RB-Tree(红黑树)
 * Graph
 * Dictionary: Hash
-* Heap: Priority Queue
+* Heap: Priority Queue(优先级队列)
 
 ---
 
