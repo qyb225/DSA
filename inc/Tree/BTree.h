@@ -1,8 +1,8 @@
 #ifndef BTREE_H
 #define BTREE_H
 #include <iostream>
-#include "../Vector/Vector.h"
-#include "../Stack/Stack.h"
+#include "Vector.h"
+#include "Stack.h"
 
 template <class T>
 struct BTNode {

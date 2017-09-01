@@ -1,7 +1,7 @@
 #ifndef BINTREE_H
 #define BINTREE_H
-#include "../Stack/Stack.h"
-#include "../Queue/Queue.h"
+#include "Stack.h"
+#include "Queue.h"
 
 typedef enum { RB_BLACK, RB_RED} RB_Color;
 

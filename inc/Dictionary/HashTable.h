@@ -1,6 +1,6 @@
 #ifndef HASHTABLE_H
 #define HASHTABLE_H
-#include "../Entry/Entry.h"
+#include "Entry.h"
 #include "Dictionary.h"
 #include <iostream>
 using namespace std;

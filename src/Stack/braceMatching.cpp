@@ -1,4 +1,4 @@
-#include "../../inc/Stack/Stack.h"
+#include "Stack.h"
 
 bool paren(string exp); //Brace matching(only "()").
 

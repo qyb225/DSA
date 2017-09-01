@@ -1,7 +1,7 @@
 #ifndef PQ_COMPLHEAP_H
 #define PQ_COMPLHEAP_H
 #include "PQueue.h"
-#include "../Vector/Vector.h"
+#include "Vector.h"
 
 template <class T>
 class PQ_ComplHeap: public PQueue<T>, public Vector<T> {
